@@ -1,0 +1,7 @@
+REM Restart the system in 5 seconds
+DELAY 1000
+GUI r
+DELAY 500
+STRING shutdown /r /t 00 /f
+DELAY 500
+ENTER

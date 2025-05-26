@@ -1,0 +1,9 @@
+REM Open Notepad and type a secret message
+DELAY 1000
+GUI r
+DELAY 500
+STRING notepad
+ENTER
+DELAY 700
+STRING This is a secret message from Pico Ducky!
+ENTER

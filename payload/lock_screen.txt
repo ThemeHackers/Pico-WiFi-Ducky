@@ -1,0 +1,3 @@
+REM Lock the screen
+DELAY 1000
+GUI l

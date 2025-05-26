@@ -1,0 +1,6 @@
+REM Open Chrome and visit a website
+DELAY 1000
+GUI r
+DELAY 500
+STRING chrome https://themehackers.github.io/
+ENTER

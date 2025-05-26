@@ -1,0 +1,6 @@
+REM Fake error popup
+DELAY 1000
+GUI r
+DELAY 500
+STRING powershell -c "Add-Type -AssemblyName Microsoft.VisualBasic;[Microsoft.VisualBasic.Interaction]::MsgBox('System Error: Code 0x800F0922')"
+ENTER

