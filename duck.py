@@ -165,10 +165,13 @@ def exe(payload_script):
 @server.route("/", methods=["GET"])
 def base(request: Request):
     try:
-        with open("index.html", "r") as file:
-            html_content = file.read()
-        headers = {"Content-Type": "text/html"}
-        return Response(request, html_content, headers=headers)
+        with open("index.html.gz", "rb") as file:
+            gz_content = file.read()
+        headers = {
+            "Content-Type": "text/html",
+            "Content-Encoding": "gzip"
+        }
+        return Response(request, gz_content, headers=headers)
     except Exception as e:
         return Response(request, "File not found", status=404)
 
