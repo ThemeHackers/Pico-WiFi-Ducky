@@ -4,6 +4,8 @@ import time
 import digitalio
 import gc
 import usb_hid
+import board
+import random
 from board import LED
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
@@ -30,29 +32,30 @@ def start_access_point():
     print("Failed to start AP after retries")
     return False
 
-# Start AP
 if not start_access_point():
     led = digitalio.DigitalInOut(LED)
     led.direction = digitalio.Direction.OUTPUT
     while True:
-        led.value = not led.value  # Blink LED to indicate failure
+        led.value = not led.value 
         time.sleep(0.5)
 
-# Set up server
 pool = socketpool.SocketPool(wifi.radio)
 server = Server(pool, "/static", debug=True)
 
-# LED setup
-led = digitalio.DigitalInOut(LED)
+led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
-led.value = False
 
-# HID setup
+while True:
+    led.value = True
+    time.sleep(random.uniform(0.1, 0.1))
+    led.value = False
+    time.sleep(random.uniform(0.1, 0.1))
+
+
 kbd = Keyboard(usb_hid.devices)
 layout = KeyboardLayoutUS(kbd)
 mouse = Mouse(usb_hid.devices)
 
-# Ducky Script command mappings
 duckyCommands = {
     'WINDOWS': Keycode.WINDOWS, 'GUI': Keycode.GUI,
     'APP': Keycode.APPLICATION, 'MENU': Keycode.APPLICATION, 'SHIFT': Keycode.SHIFT,
