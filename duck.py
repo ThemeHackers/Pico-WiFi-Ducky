@@ -5,7 +5,6 @@ import digitalio
 import gc
 import usb_hid
 import board
-import random
 from board import LED
 from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
@@ -13,9 +12,18 @@ from adafruit_hid.keycode import Keycode
 from adafruit_hid.mouse import Mouse
 from adafruit_httpserver import Server, Request, Response, JSONResponse, POST
 
-
 SSID = "PicoWiFiDuck"
 PASSWORD = "!@picowsecurity"
+
+led = digitalio.DigitalInOut(LED)
+led.direction = digitalio.Direction.OUTPUT
+
+def blink_led(times=3, delay=0.1):
+    for _ in range(times):
+        led.value = True
+        time.sleep(delay)
+        led.value = False
+        time.sleep(delay)
 
 def start_access_point():
     print("Creating access point", SSID)
@@ -33,24 +41,14 @@ def start_access_point():
     return False
 
 if not start_access_point():
-    led = digitalio.DigitalInOut(LED)
-    led.direction = digitalio.Direction.OUTPUT
     while True:
-        led.value = not led.value 
+        led.value = not led.value
         time.sleep(0.5)
+
+blink_led()
 
 pool = socketpool.SocketPool(wifi.radio)
 server = Server(pool, "/static", debug=True)
-
-led = digitalio.DigitalInOut(board.LED)
-led.direction = digitalio.Direction.OUTPUT
-
-while True:
-    led.value = True
-    time.sleep(random.uniform(0.1, 0.1))
-    led.value = False
-    time.sleep(random.uniform(0.1, 0.1))
-
 
 kbd = Keyboard(usb_hid.devices)
 layout = KeyboardLayoutUS(kbd)
@@ -139,11 +137,13 @@ def parseLine(line):
         led.value = False
 
 def exe(payload_script):
-    global defaultDelay
+    global defaultDelay, blink_during_script
     defaultDelay = 0
     previousLine = ""
+    blink_during_script = True  
     print(f"Executing payload. Free memory: {gc.mem_free()} bytes")
     for line in payload_script:
+        update_led_blink()
         line = line.rstrip()
         if not line:
             continue
@@ -153,27 +153,31 @@ def exe(payload_script):
                 for i in range(count):
                     parseLine(previousLine)
                     time.sleep(defaultDelay / 1000)
+                    update_led_blink()
             except (ValueError, IndexError):
                 print(f"Invalid REPEAT value: {line}")
         else:
             parseLine(line)
             previousLine = line
         time.sleep(defaultDelay / 1000)
+        update_led_blink()
+
+    blink_during_script = False 
+    led.value = True  
     print(f"Payload execution completed. Free memory: {gc.mem_free()} bytes")
-    led.value = True
 
 @server.route("/", methods=["GET"])
 def base(request: Request):
     try:
-        with open("index.html.gz", "rb") as file:
-            gz_content = file.read()
+        with open("index.html", "r", encoding="utf-8") as file:
+            html_content = file.read()
         headers = {
-            "Content-Type": "text/html",
-            "Content-Encoding": "gzip"
+            "Content-Type": "text/html"
         }
-        return Response(request, gz_content, headers=headers)
+        return Response(request, html_content, headers=headers)
     except Exception as e:
         return Response(request, "File not found", status=404)
+
 
 @server.route("/api", methods=[POST])
 def handle_payload(request: Request):
@@ -196,3 +200,4 @@ def handle_payload(request: Request):
 
 print(f"Starting server on 192.168.4.1:80. Free memory: {gc.mem_free()} bytes")
 server.serve_forever(port=80)
+
