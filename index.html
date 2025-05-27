@@ -6,10 +6,7 @@
   <title>Pico WiFi Duck</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet" />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
       font-family: 'JetBrains Mono', monospace;
       background-color: #0e0e0e;
@@ -17,14 +14,12 @@
       margin: 0;
       padding: 0;
     }
-
     header {
       background-color: #111;
       padding: 30px 15px;
       text-align: center;
       border-bottom: 2px solid #00ff00;
     }
-
     header h1 {
       margin: 0;
       font-size: 2.2rem;
@@ -32,41 +27,17 @@
       letter-spacing: 5px;
       text-shadow: 0 0 5px #00ff00;
     }
-
     .container {
       max-width: 1000px;
       margin: auto;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
     }
-
     .section {
       background-color: #1a1a1a;
       border-radius: 12px;
       padding: 25px;
       box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
     }
-
-    h2 {
-      color: #00ff99;
-      margin-top: 0;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
-    pre {
-      background: #121212;
-      color: #baffba;
-      padding: 10px;
-      border-left: 4px solid #00ff00;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-
     textarea {
       width: 100%;
       height: 280px;
@@ -79,14 +50,12 @@
       resize: vertical;
       margin-bottom: 10px;
     }
-
     .button-group {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 10px;
     }
-
     .file-upload-label,
     button {
       padding: 12px 18px;
@@ -96,52 +65,42 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
-
     .file-upload-label {
       background-color: #0099cc;
       color: white;
     }
-
     .file-upload-label:hover {
       background-color: #0077aa;
     }
-
     button {
       background-color: #00c853;
       color: black;
     }
-
     button:hover {
       background-color: #00a045;
     }
-
     .danger {
       background-color: #ff3d00 !important;
       color: white !important;
     }
-
     .danger:hover {
       background-color: #cc2900 !important;
     }
-
     input[type="file"] {
       display: none;
     }
-
     .status {
       margin-top: 10px;
       font-size: 14px;
       color: #00ff00;
       display: none;
     }
-
     .error {
       color: #ff4c4c;
       font-size: 14px;
       margin-top: 10px;
       display: none;
     }
-
     footer {
       background-color: #111;
       color: #999;
@@ -150,25 +109,17 @@
       margin-top: 40px;
       font-size: 14px;
     }
-
     a {
       color: #00ffcc;
       text-decoration: none;
     }
-
     a:hover {
       text-decoration: underline;
     }
-
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.8rem;
-      }
-
       .button-group {
         flex-direction: column;
       }
-
       .file-upload-label,
       button {
         width: 100%;
@@ -183,32 +134,6 @@
 
   <main class="container">
     <section class="section">
-      <h2>About Pico WiFi Duck</h2>
-      <p>
-        Turn your Raspberry Pi Pico W into a USB Rubber Ducky. Run <strong>Ducky Script</strong> remotely via Wi-Fi and simulate keyboard inputs on a connected system.
-      </p>
-    </section>
-
-    <section class="section">
-      <h2>How to Use</h2>
-      <ul>
-        <li>Connect to hotspot: <strong>PicoWiFiDuck</strong> | Password: <strong>!@picowsecurity</strong></li>
-        <li>Write or upload your <code>.txt</code> Ducky Script.</li>
-        <li>Click <strong>Run</strong> to launch the payload.</li>
-        <li>Sample Script:
-          <pre>REM Open Notepad and say hi
-GUI r
-DELAY 300
-STRING notepad
-ENTER
-DELAY 500
-STRING Hello from Pico WiFi Duck!</pre>
-        </li>
-      </ul>
-    </section>
-
-    <section class="section">
-      <h2>Editor</h2>
       <textarea id="payload" placeholder="Type your Ducky Script here..."></textarea>
       <div class="button-group">
         <label for="fileInput" class="file-upload-label">📂 Upload Script</label>
@@ -218,11 +143,6 @@ STRING Hello from Pico WiFi Duck!</pre>
       </div>
       <div id="status" class="status">✅ Payload executed successfully!</div>
       <div id="error" class="error">❌ Failed to execute payload.</div>
-    </section>
-
-    <section class="section">
-      <h2>Disclaimer</h2>
-      <p>This tool is for <strong>educational & authorized testing</strong> only. The developers and contributors are not responsible for misuse or illegal activities.</p>
     </section>
   </main>
 
@@ -309,3 +229,4 @@ STRING Hello from Pico WiFi Duck!</pre>
   </script>
 </body>
 </html>
+
