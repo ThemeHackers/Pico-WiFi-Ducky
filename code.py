@@ -38,3 +38,4 @@ def api(request: Request):
         return JSONResponse(request, {"error": str(e)}, status=500)
 
 server.serve_forever(port=80)
+
